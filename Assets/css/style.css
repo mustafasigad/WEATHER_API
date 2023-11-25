@@ -7,15 +7,10 @@ header {
     padding-bottom: 1px;
 }
 
-.box {
-    border: 2x;
-    padding-top: 20px;
-    width: 100px;
-    height: 300px;
-
-    color: black;
-    display: inline-flexbox;
+span {
+    font-weight: bold;
 }
+
 
 .button {
     margin: 6px 4px;

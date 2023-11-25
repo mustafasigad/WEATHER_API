@@ -7,35 +7,34 @@ async function getCityWeather(city) {
   return data
 
 }
-//const url=`https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}`
+
 // Display current weather data for given city
 function displayCurrentWeather(data) {
   const city = data.city.name;
   const weather = data.list[0].weather[0];
   const icon = weather.icon;
-  //const temp = weather.temp;
   const temp1 = data.list[0].main
-  //data.list[0].wind.speed
   const humidity = data.list[0].main.humidity;
   const wind = data.list[0].wind.speed;
   let currentWeatherElement = `
       <div >
         <h2>${city} (${new Date()})</h2>
         <img src="https://openweathermap.org/img/w/${icon}.png"/>
-        <p>Temp: ${temp1.temp}</p>
-        <p>Humidity: ${humidity}</p>
-        <p>Wind: ${wind}</p>
+        <p>Temp: ${temp1.temp - 273}<span> ℃ </span> </p>
+        <p>Humidity: ${humidity}<span> MPH </span></p>
+        <p>Wind: ${wind}<span> % </span></p>
       </div>
     `;
   document.getElementById('current-weather').innerHTML = currentWeatherElement;
 }
 
-document.getElementById('city-input').value = ''
-
 function displayForecast(data) {
   let newnewarray = []
   let newarray = []
-  let current = 'Fri'
+  // get the current date , this will be sued to  get the 5 days forcast 
+  let rightNow = dayjs().format("dddd, MMMM  YYYY, h:mm:ss a");
+  let current = rightNow.slice(0, 3)
+  console.log(current)
   let myarray = []
   console.log(data)
   for (i = 0; i < data.list.length; i++) {
@@ -58,18 +57,18 @@ function displayForecast(data) {
   }
 
 
-  console.log(newarray)
-  // console.log(data)
-  // this is the code to display the 5 days on the screen  
-  let forecastElement = '<div  >';
+
+  let forecastElement = '<div>';
   newarray.forEach(day => {
+
     forecastElement += `
+    
         <div class='card'>
           <h3>${new Date(day.dt_txt)}</h3> 
           <img src="https://openweathermap.org/img/w/${day.weather[0].icon}.png"/>
-          <p>Temp: ${day.main.temp - 273}</p>
-          <p>Wind: ${day.wind.speed}</p>
-          <p>Humidity: ${day.main.humidity}</p>
+          <p>Temp: ${day.main.temp - 273} <span> ℃ </span> </p>
+          <p>Wind: ${day.wind.speed} <span> MPH </span> </p>
+          <p>Humidity: ${day.main.humidity} <span> %</span> </p></p>
         </div>
       `;
   });
@@ -78,7 +77,6 @@ function displayForecast(data) {
 
 }
 // Get weather data and display when form submitted
-
 document.getElementById('search-form').addEventListener('click', async (event) => {
   event.preventDefault();
 
@@ -106,8 +104,6 @@ function createMyButton() {
     event.preventDefault();
     const city = button.textContent;
     const data = await getCityWeather(city);
-
-
     displayCurrentWeather(data);
     displayForecast(data);
 
