@@ -20,7 +20,7 @@ function displayCurrentWeather(data) {
       <div >
         <h2>${city} (${new Date()})</h2>
         <img src="https://openweathermap.org/img/w/${icon}.png"/>
-        <p>Temp: ${temp1.temp - 273}<span> ℃ </span> </p>
+        <p>Temp: ${temp1.temp.toFixed() - 273}<span> ℃ </span> </p>
         <p>Humidity: ${humidity}<span> MPH </span></p>
         <p>Wind: ${wind}<span> % </span></p>
       </div>
@@ -55,18 +55,14 @@ function displayForecast(data) {
     const dates = currents.toDateString();
     current = dates.slice(0, 3)
   }
-
-
-
   let forecastElement = '<div>';
   newarray.forEach(day => {
 
-    forecastElement += `
-    
+    forecastElement += `    
         <div class='card'>
           <h3>${new Date(day.dt_txt)}</h3> 
           <img src="https://openweathermap.org/img/w/${day.weather[0].icon}.png"/>
-          <p>Temp: ${day.main.temp - 273} <span> ℃ </span> </p>
+          <p>Temp: ${day.main.temp.toFixed() - 273} <span> ℃ </span> </p>
           <p>Wind: ${day.wind.speed} <span> MPH </span> </p>
           <p>Humidity: ${day.main.humidity} <span> %</span> </p></p>
         </div>
@@ -94,7 +90,6 @@ let buttonContainer = document.getElementById('makingButton');
 let container = document.getElementsByClassName('formandSearch');
 
 function createMyButton() {
-
   let button = document.createElement('button');
   button.setAttribute('class', 'coloring')
   button.textContent = localStorage.getItem('mycity');
